@@ -46,9 +46,9 @@ const Major = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {majors.maps((aMajor, id) => (
+                {majors.maps((aMajor, id) => (
                   <DataRow dataCode={id+1} dataName={aMajor.name} key={aMajor.id} onClick={(e) => showEditPage(e, `${id+1}`)} />
-                ))} */}
+                ))}
                 {/* {majorService.maps((aMjor, idx) => (
                   <tr key={aMjor.id}>
                   <td>{idx + 1}</td>
