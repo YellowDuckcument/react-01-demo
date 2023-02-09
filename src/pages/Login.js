@@ -1,9 +1,12 @@
 import React, { useRef, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "./../components/Input";
+import clientService from "../service/clientService";
 
 const Login = (props) => {
   const [message, setMessage] = useState("");
+  const navigate = useNavigate()
 
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -11,11 +14,20 @@ const Login = (props) => {
     e.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    if (username === "admin" && password === "123456") {
-      setMessage("Good");
-    } else {
-      setMessage("Bad");
-    }
+    // if (username === "admin" && password === "123456") {
+    //   setMessage("Good");
+    // } else {
+    //   setMessage("Bad");
+    // }
+    clientService.login(username, password).then((res) => {
+      // toDo: save userinfor
+      if (res.errorCode === 0) {
+        setMessage("")
+        navigate('/home')
+      } else {
+        setMessage("Wrong username or password!");
+      }
+    })
   };
 
   useEffect(() => {

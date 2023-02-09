@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import Button from "../components/CustomButton";
 import Input from "../components/Input";
+
 const MajorEdit = () => {
   const [major, setMajor] = useState({ id: 0, code: "", name: "" });
   const { id } = useParams();
@@ -60,12 +62,8 @@ const MajorEdit = () => {
               />
             </div>
             <div className="card-footer text-center">
-              <button type="button" onClick={backHandler} className="btn btn-secondary me-1">
-                Back
-              </button>
-              <button type="button" onClick={saveHandler} className="btn btn-primary">
-                Save
-              </button>
+              <Button color='secondary' className='me-1' onClick={backHandler}> Back </Button>
+              <Button color='primary' className='me-1' onClick={saveHandler}> Save </Button>
             </div>
           </div>
         </div>
