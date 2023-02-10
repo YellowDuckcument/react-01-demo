@@ -46,27 +46,9 @@ const Major = () => {
                 </tr>
               </thead>
               <tbody>
-                {majors.maps((aMajor, id) => (
-                  <DataRow dataCode={id+1} dataName={aMajor.name} key={aMajor.id} onClick={(e) => showEditPage(e, `${id+1}`)} />
+                {majors.map((aMajor, id) => (
+                  <DataRow dataCode={id+1} dataName={aMajor.name} key={aMajor.id} onClick={(e) => showEditPage(e, `${id + 1}`)}  />
                 ))}
-                {/* {majorService.maps((aMjor, idx) => (
-                  <tr key={aMjor.id}>
-                  <td>{idx + 1}</td>
-                  <td>{aMjor.name}</td>
-                  <td>
-                    <a href="/#" onClick={(e) => showEditPage(e, `${idx + 1}`)} className="me-1">
-                      <i className="bi-pencil-square text-primary" />
-                    </a>
-                    <a href="/#">
-                      <i className="bi-trash text-danger" />
-                    </a>
-                  </td>
-                </tr>
-                ))} */}
-                <DataRow dataCode='1' dataName='iT' onClick={(e) => showEditPage(e, 1)} />
-                <DataRow dataCode='2' dataName='Marketing' onClick={(e) => showEditPage(e, 2)} />
-                <DataRow dataCode='3' dataName='Network' onClick={(e) => showEditPage(e, 3)} />
-                <DataRow dataCode='4' dataName='Account' onClick={(e) => showEditPage(e, 4)} />
               </tbody>
             </table>
           </div>
