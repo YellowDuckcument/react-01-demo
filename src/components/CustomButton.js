@@ -1,6 +1,6 @@
 // import React, { useState, useEffect } from 'react';
 
-const Button = (props) => {
+const CustomerButton = (props) => {
   const { color, className, ...other } = props;
   const classBtn = `btn btn-${color} ${className}`;
 
@@ -11,4 +11,4 @@ const Button = (props) => {
   );
 };
 
-export default Button;
+export default CustomerButton;
