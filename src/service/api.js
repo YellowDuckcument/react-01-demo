@@ -14,6 +14,22 @@ const instance = axios.create({
     },
 })
 
+instance.interceptors.request.use(request => request)
+instance.interceptors.response.use(
+    response => response.data,
+    err => {
+        if (err.code === "ERR_NETWORK") {
+            window.location.href = "/network-error";
+        } else {
+            switch (err.response.status) {
+                case 401: window.location.href = "/login"; break;
+                case 403: window.location.href = "/no-permission"; break;
+                default: break;
+            }
+        }
+        return Promise.reject(err);
+    }
+)
 const api = {
     url,
     instance,

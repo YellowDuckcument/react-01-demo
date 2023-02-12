@@ -5,19 +5,31 @@ import DataRow from "../components/Data";
 import majorService from "../service/majorsService";
 
 const Major = () => {
-  const [majors, setMajors] = useState([]);
   const navigate = useNavigate();
+  const [majors, setMajors] = useState([]);
 
   const showEditPage = (e, id) => {
     if (e) e.preventDefault();
     navigate(`/major/${id}`);
   };
 
-  useEffect(() => {
-    majorService.list().then(res => setMajors(res.data))
-  }, [])
+  const handleDelete = (e, id) => {
+    e.preventDefault();
+    majorService.delete(id).then((res) => {
+      if (res.errorCode === 0) {
+        loadData();
+      }
+    });
+  };
 
-  console.log(majors)
+  const loadData = () => {
+    majorService.list().then((res) => setMajors(res.data));
+  }
+
+  useEffect(() => {
+   loadData();
+  }, []);
+
   return (
     <div className="container mt-4">
       <div className="card border-primary bt-5">
@@ -47,7 +59,13 @@ const Major = () => {
               </thead>
               <tbody>
                 {majors.map((aMajor, id) => (
-                  <DataRow dataCode={id+1} dataName={aMajor.name} key={aMajor.id} onClick={(e) => showEditPage(e, `${id + 1}`)}  />
+                  <DataRow
+                    dataCode={id + 1}
+                    dataName={aMajor.name}
+                    key={aMajor.id}
+                    onClickEdit={(e) => showEditPage(e, aMajor.id)}
+                    onClickDelete={(e) => handleDelete(e, aMajor.id)}
+                  />
                 ))}
               </tbody>
             </table>
