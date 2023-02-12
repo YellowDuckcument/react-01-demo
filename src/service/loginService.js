@@ -5,8 +5,8 @@ const login = (username, password) => {
     return api.post(api.url.login, data);
 }
 
-const clientService = {
+const loginService = {
     login,
 }
 
-export default clientService
+export default loginService

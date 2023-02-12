@@ -1,21 +1,21 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Button from "../components/CustomButton";
-import DataRow from "../components/DataMajor";
-import majorService from "../service/majorsService";
+import DataRowIns from "../components/DataInstructor";
+import instructorService from "../service/instructorService";
 
-const Major = () => {
+const Instructors = () => {
   const navigate = useNavigate();
-  const [majors, setMajors] = useState([]);
+  const [instructor, setInstructor] = useState([]);
 
   const showEditPage = (e, id) => {
     if (e) e.preventDefault();
-    navigate(`/major/${id}`);
+    navigate(`/instructors/${id}`);
   };
 
   const handleDelete = (e, id) => {
     e.preventDefault();
-    majorService.delete(id).then((res) => {
+    instructorService.delete(id).then((res) => {
       if (res.errorCode === 0) {
         loadData();
       }
@@ -23,11 +23,11 @@ const Major = () => {
   };
 
   const loadData = () => {
-    majorService.list().then((res) => setMajors(res.data));
-  }
+    instructorService.list().then((res) => setInstructor(res.data));
+  };
 
   useEffect(() => {
-   loadData();
+    loadData();
   }, []);
 
   return (
@@ -37,7 +37,7 @@ const Major = () => {
           <div className="row">
             <div className="col">
               <h3 className="card-title">
-                Major <small className="text-muted">list</small>
+                Instructor <small className="text-muted">list</small>
               </h3>
             </div>
             <div className="col-auto">
@@ -51,20 +51,32 @@ const Major = () => {
           <div className="table-responsive">
             <table className="table table-bordered border-primary table-hover table-striped">
               <thead>
-                <tr className="table-primary border-primary">
+                <tr className="table-primary border-primary text-center">
                   <th style={{ width: 50 }}>#</th>
-                  <th>Major Name</th>
+                  <th style={{ width: "15%" }}>Instructor Id</th>
+                  <th style={{ width: "25%" }}>Full Name</th>
+                  <th style={{ width: "8%" }}>Gender</th>
+                  <th>Phone</th>
+                  <th>Email</th>
                   <th style={{ width: 80 }} />
                 </tr>
               </thead>
               <tbody>
-                {majors.map((aMajor, id) => (
-                  <DataRow
+                {instructor.map((aInstructor, id) => (
+                  <DataRowIns
+                    key={aInstructor.id}
                     dataCode={id + 1}
-                    dataName={aMajor.name}
-                    key={aMajor.id}
-                    onClickEdit={(e) => showEditPage(e, aMajor.id)}
-                    onClickDelete={(e) => handleDelete(e, aMajor.id)}
+                    insId = {
+                      aInstructor.code
+                    }
+                    fullName={
+                      aInstructor.lastName + " " + aInstructor.firstName
+                    }
+                    gender={aInstructor.gender}
+                    phone={aInstructor.phone}
+                    email={aInstructor.email}
+                    onClickEdit={(e) => showEditPage(e, aInstructor.id)}
+                    onClickDelete={(e) => handleDelete(e, aInstructor.id)}
                   />
                 ))}
               </tbody>
@@ -76,4 +88,4 @@ const Major = () => {
   );
 };
 
-export default Major;
+export default Instructors;

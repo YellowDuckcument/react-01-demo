@@ -4,8 +4,8 @@ import Button from "../components/CustomButton";
 import Input from "../components/Input";
 import majorService from "../service/majorsService";
 
+const defaultMajor = { id: 0, code: "", name: "" };
 const MajorEdit = () => {
-  const defaultMajor = { id: 0, code: "", name: "" };
   const { id } = useParams();
   const [major, setMajor] = useState(defaultMajor);
   const [message, setMessage] = useState("");
@@ -26,14 +26,12 @@ const MajorEdit = () => {
       navigate("/not-found");
     } else {
       if (id > 0) {
-        majorService.get(id).then((res) => {
-          setMajor(res.data);
-        });
+        majorService.get(id).then((res) => setMajor(res.data));
       } else {
         setMajor(defaultMajor);
       }
     }
-  },[]);
+  },[id, navigate]);
 
   const backHandler = (e) => {
     navigate("/major");

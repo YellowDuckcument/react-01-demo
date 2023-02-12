@@ -1,4 +1,3 @@
-import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
 const Header = () => {
   return (
@@ -29,6 +28,11 @@ const Header = () => {
             <li className="nav-item">
               <NavLink className="nav-link" to="/major">
                 Major
+              </NavLink>
+            </li>
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/instructors">
+                Instructors
               </NavLink>
             </li>
             <li className="nav-item">

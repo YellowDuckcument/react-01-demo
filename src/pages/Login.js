@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "./../components/Input";
-import clientService from "../service/clientService";
+import loginService from "../service/loginService";
 
 const Login = (props) => {
   const [message, setMessage] = useState("");
@@ -10,6 +10,7 @@ const Login = (props) => {
 
   const usernameRef = useRef();
   const passwordRef = useRef();
+
   const formSubmitHandler = (e) => {
     e.preventDefault();
     const username = usernameRef.current.value;
@@ -19,7 +20,7 @@ const Login = (props) => {
     // } else {
     //   setMessage("Bad");
     // }
-    clientService.login(username, password).then((res) => {
+    loginService.login(username, password).then((res) => {
       // toDo: save userinfor
       if (res.errorCode === 0) {
         setMessage("")
@@ -49,7 +50,6 @@ const Login = (props) => {
               <form onSubmit={formSubmitHandler}>
                 <Input inputRef={usernameRef} label="Username" id="txUsername" maxLength="30" />
                 <Input inputRef={passwordRef} label="Password" id="txtPassword" type="password" />
-                {/* <Input label="Note" id="txtNote" rows="3" /> */}
                 <div className="row">
                   <div className="offset-sm-3 col-auto">
                     <button type="submit" className="btn btn-primary">
