@@ -9,9 +9,9 @@ import Instructors from "./pages/Instructors";
 const routes = [
   { path: "", component: <Home /> },
   { path: "/home", component: <Home /> },
-  { path: "/major", component: <Major /> },
+  { path: "/majors", component: <Major /> },
   { path: "/instructors", component: <Instructors /> },
-  { path: "/major/:id", component: <MajorEdit /> },
+  { path: "/majors/:id", component: <MajorEdit /> },
   { path: "/not-found", component: <NotFound /> },
   { path: "/no-permission", component: <NoPermission />},
   { path: "/network-error", component: <NetworkError /> },

@@ -20,7 +20,7 @@ const DataRowIns = (props) => {
       <td>{insId}</td>
       <td>{fullName}</td>
       <td className="text-center">
-        {gender === 0 ? (
+        {gender === "1" ? (
           <FontAwesomeIcon className="fs-4 text-primary" icon={faChild} />
         ) : (
           <FontAwesomeIcon className="fs-4" style={{ color: 'E90064' }} icon={faChildDress} />

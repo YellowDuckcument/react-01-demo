@@ -1,5 +1,5 @@
 
-const DataRow = (props) => {
+const DataRowMajors = (props) => {
   const { dataCode, dataName, onClickEdit, onClickDelete, key } = props;
 
   return (
@@ -18,4 +18,4 @@ const DataRow = (props) => {
   );
 };
 
-export default DataRow;
+export default DataRowMajors;

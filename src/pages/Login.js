@@ -15,11 +15,6 @@ const Login = (props) => {
     e.preventDefault();
     const username = usernameRef.current.value;
     const password = passwordRef.current.value;
-    // if (username === "admin" && password === "123456") {
-    //   setMessage("Good");
-    // } else {
-    //   setMessage("Bad");
-    // }
     loginService.login(username, password).then((res) => {
       // toDo: save userinfor
       if (res.errorCode === 0) {

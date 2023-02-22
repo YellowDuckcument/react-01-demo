@@ -32,26 +32,26 @@ const MajorEdit = () => {
       }
     }
   },[id, navigate]);
+  
+    const changeEventHandler = (e) => {
+      let newMajor = { ...major };
+      newMajor[e.target.name] = e.target.value;
+      setMajor(newMajor);
+    };
 
   const backHandler = (e) => {
-    navigate("/major");
-  };
-
-  const changeEventHandler = (e) => {
-    let newMajor = { ...major };
-    newMajor[e.target.name] = e.target.value;
-    setMajor(newMajor);
+    navigate("/majors");
   };
 
   const saveHandler = () => {
     if (major.id === 0) {
       majorService.add(major).then((res) => {
-        if (res.errorCode === 0) navigate("/major");
+        if (res.errorCode === 0) navigate("/majors");
         else setMessage(res.message);
       });
     } else {
       majorService.update(major.id, major).then((res) => {
-        if (res.errorCode === 0) navigate("/major");
+        if (res.errorCode === 0) navigate("/majors");
         else setMessage(res.message);
       });
     }

@@ -67,14 +67,14 @@ const Instructors = () => {
                     key={aInstructor.id}
                     dataCode={id + 1}
                     insId = {
-                      aInstructor.code
+                      aInstructor.Instructor_id
                     }
                     fullName={
-                      aInstructor.lastName + " " + aInstructor.firstName
+                      aInstructor.Full_name
                     }
                     gender={aInstructor.gender}
-                    phone={aInstructor.phone}
-                    email={aInstructor.email}
+                    phone={aInstructor.Phone}
+                    email={aInstructor.Email}
                     onClickEdit={(e) => showEditPage(e, aInstructor.id)}
                     onClickDelete={(e) => handleDelete(e, aInstructor.id)}
                   />

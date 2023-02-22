@@ -1,7 +1,7 @@
 import axios from "axios"
 
 const url = {
-    baseUrl: "https://restfulapi.dnd-group.net/api",
+    baseUrl: "http://localhost/demo-new/public/api/",
     login: "/login",
     majors: "/majors",
     instructors: "/instructors",
@@ -31,6 +31,7 @@ instance.interceptors.response.use(
         return Promise.reject(err);
     }
 )
+
 const api = {
     url,
     instance,
