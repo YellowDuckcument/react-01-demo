@@ -5,6 +5,7 @@ import Input from "../components/Input";
 import majorService from "../service/majorsService";
 
 const defaultMajor = { id: 0, code: "", name: "" };
+
 const MajorEdit = () => {
   const { id } = useParams();
   const [major, setMajor] = useState(defaultMajor);
@@ -31,13 +32,13 @@ const MajorEdit = () => {
         setMajor(defaultMajor);
       }
     }
-  },[id, navigate]);
-  
-    const changeEventHandler = (e) => {
-      let newMajor = { ...major };
-      newMajor[e.target.name] = e.target.value;
-      setMajor(newMajor);
-    };
+  }, [id, navigate]);
+
+  const changeEventHandler = (e) => {
+    let newMajor = { ...major };
+    newMajor[e.target.name] = e.target.value;
+    setMajor(newMajor);
+  };
 
   const backHandler = (e) => {
     navigate("/majors");
