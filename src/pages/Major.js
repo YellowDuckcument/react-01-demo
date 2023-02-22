@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Button, Modal } from "react-bootstrap";
-import CustomerButton from "../components/CustomButton";
-import DataRow from "../components/DataMajor";
-import Input from "../components/Input";
+import { useNavigate } from "react-router-dom";
+import Button from "../components/CustomButton";
+import DataRowMajors from "../components/DataRowMajors";
 import majorService from "../service/majorsService";
 
-const defaultMajor = { id: 0, code: "", name: "" };
-
 const Major = () => {
+
+  const navigate = useNavigate();
   const [majors, setMajors] = useState([]);
-  const [modalShow, setmodalShow] = useState(false);
-  // const { id } = useParams();
-  const [major, setMajor] = useState(defaultMajor);
-  const [message, setMessage] = useState("");
 
-  const handleModalClose = () => setmodalShow(false);
-
-  const showEditModal = (e, id) => {
+  const showEditPage = (e, id) => {
     if (e) e.preventDefault();
-    setmodalShow(true);
+    navigate(`/majors/${id}`);
   };
 
   const handleDelete = (e, id) => {
@@ -27,7 +20,7 @@ const Major = () => {
       if (res.errorCode === 0) {
         loadData();
       }
-    });
+    }); 
   };
 
   const loadData = () => {
@@ -38,86 +31,49 @@ const Major = () => {
     loadData();
   }, []);
 
-  const changeEventHandler = (e) => {
-    let newMajor = { ...major };
-    newMajor[e.target.name] = e.target.value;
-    setMajor(newMajor);
-  };
-
-
   return (
-    <>
-      <div className="container mt-4">
-        <div className="card border-primary bt-5">
-          <div className="card-header">
-            <div className="row">
-              <div className="col">
-                <h3 className="card-title">
-                  Major <small className="text-muted">list</small>
-                </h3>
-              </div>
-              <div className="col-auto">
-                <CustomerButton
-                  color="primary"
-                  onClick={() => showEditModal(null, 0)}
-                >
-                  <i className="bi-plus-lg" /> Add
-                </CustomerButton>
-              </div>
+    <div className="container mt-4">
+      <div className="card border-primary bt-5">
+        <div className="card-header">
+          <div className="row">
+            <div className="col">
+              <h3 className="card-title">
+                Major <small className="text-muted">list</small>
+              </h3>
             </div>
-          </div>
-          <div className="card-body">
-            <div className="table-responsive">
-              <table className="table table-bordered border-primary table-hover table-striped">
-                <thead>
-                  <tr className="table-primary border-primary">
-                    <th style={{ width: 50 }}>#</th>
-                    <th>Major Name</th>
-                    <th style={{ width: 80 }} />
-                  </tr>
-                </thead>
-                <tbody>
-                  {majors.map((aMajor, id) => (
-                    <DataRow
-                      dataCode={id + 1}
-                      dataName={aMajor.name}
-                      key={aMajor.id}
-                      onClickEdit={(e) => showEditModal(e, aMajor.id)}
-                      onClickDelete={(e) => handleDelete(e, aMajor.id)}
-                    />
-                  ))}
-                </tbody>
-              </table>
+            <div className="col-auto">
+            <Button color="primary" onClick={() => showEditPage(null, 0)}>
+                <i className="bi-plus-lg" /> Add
+              </Button>
             </div>
           </div>
         </div>
+        <div className="card-body">
+          <div className="table-responsive">
+            <table className="table table-bordered border-primary table-hover table-striped">
+              <thead>
+                <tr className="table-primary border-primary">
+                  <th style={{ width: 50 }}>#</th>
+                  <th>Major Name</th>
+                  <th style={{ width: 80 }} />
+                </tr>
+              </thead>
+              <tbody>              
+              {majors.map((major, id) => (
+                  <DataRowMajors
+                    key={major.id}
+                    dataCode={id + 1}
+                    dataName = {major.name}
+                    onClickEdit={(e) => showEditPage(e, major.id)}
+                    onClickDelete={(e) => handleDelete(e, major.id)}
+                  />
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
       </div>
-
-      <Modal show={modalShow} onHide={handleModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Input
-            label="Major name"
-            onChange={changeEventHandler}
-            defaultValue={major.name}
-            name="name"
-            id="txtMajor"
-            required
-            lastRow
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleModalClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    </div>
   );
 };
 
