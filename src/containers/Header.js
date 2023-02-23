@@ -1,6 +1,12 @@
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
 import { Link, NavLink } from "react-router-dom";
+import { logout } from "../store/reducers/auth"
+
 const Header = () => {
+  const dispatch = useDispatch()
+  const userInfo = useSelector((state) => state.auth.userInfo)
+
   return (
     <>
       <Navbar bg="primary" variant="dark">
@@ -26,8 +32,8 @@ const Header = () => {
           </Nav>
           <Nav>
             <Navbar.Collapse className="justify-content-end">
-              <Nav.Link href="#">welcome to ... </Nav.Link>
-              <Nav.Link as={Link} to="/login">
+              <Nav.Link href="#">welcome to <b className="text-capitalize">{userInfo.fullName}</b> </Nav.Link>
+              <Nav.Link onClick={() => dispatch(logout())}>
                 <i className="bi-box-arrow-right" />
               </Nav.Link>
             </Navbar.Collapse>

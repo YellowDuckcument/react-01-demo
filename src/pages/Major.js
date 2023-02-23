@@ -1,12 +1,14 @@
+import { useFormik } from "formik";
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Form, Modal } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import { toast } from "react-toastify";
 import CustomerButton from "../components/CustomButton";
 import DataRowMajors from "../components/DataRowMajors";
 import Input from "../components/Input";
 import majorService from "../service/majorsService";
+import * as Yup from "yup";
 
-const defaultMajor = { id: 0, code: "", name: "" };
+// const defaultMajor = { id: 0, code: "", name: "" };
 
 const Major = () => {
   const [modalShow, setModalShow] = useState(false);
@@ -16,6 +18,20 @@ const Major = () => {
     setModalShowDelete(false);
   };
 
+  const formik = useFormik({
+    initialValues:{
+      id: 0,
+      name: "",
+    }, 
+    validationSchema: Yup.object({
+      id: Yup.number().required(),
+      name: Yup.string().required('Major name is required').min(5, "At least 5 characters"),
+    }),
+    onSubmit: (values) => {
+      saveHandler(values)
+    }
+  })
+
   // Xử lý xóa modal
 
   const [dataDelete, setDataDelete] = useState([]);
@@ -24,7 +40,7 @@ const Major = () => {
     e.preventDefault();
     setModalShowDelete(true);
     majorService.get(id).then((res) => {
-      setMajor(res.data);
+      formik.setValues(res.data)
     });
     setDataDelete([e, id]);
   };
@@ -33,7 +49,7 @@ const Major = () => {
     setModalShow(false);
   };
 
-  const [major, setMajor] = useState(defaultMajor);
+  // const [major, setMajor] = useState(defaultMajor);
   const [majors, setMajors] = useState([]);
 
   const handleModalShow = (e, id) => {
@@ -41,11 +57,11 @@ const Major = () => {
 
     if (id > 0) {
       majorService.get(id).then((res) => {
-        setMajor(res.data);
+        formik.setValues(res.data)
         setModalShow(true);
       });
     } else {
-      setMajor(defaultMajor);
+      formik.resetForm();
       setModalShow(true);
     }
   };
@@ -70,15 +86,15 @@ const Major = () => {
     loadData();
   }, []);
 
-  const changeEventHandler = (e) => {
-    let newMajor = { ...major };
-    newMajor[e.target.name] = e.target.value;
-    setMajor(newMajor);
-  };
+  // const changeEventHandler = (e) => {
+  //   let newMajor = { ...major };
+  //   newMajor[e.target.name] = e.target.value;
+  //   setMajor(newMajor);
+  // };
 
-  const saveHandler = (e) => {
-    if (major.id === 0) {
-      majorService.add(major).then((res) => {
+  const saveHandler = (data) => {
+    if (data.id === 0) {
+      majorService.add(data).then((res) => {
         if (res.errorCode === 0) {
           loadData();
           setModalShow(false);
@@ -86,7 +102,7 @@ const Major = () => {
         } else toast.error(res.message);
       });
     } else {
-      majorService.update(major.id, major).then((res) => {
+      majorService.update(data.id, data).then((res) => {
         if (res.errorCode === 0) {
           loadData();
           setModalShow(false);
@@ -119,7 +135,7 @@ const Major = () => {
           <Modal.Title>
             Major{" "}
             <small className="text-muted">
-              {Number(major.id) === 0 ? "new" : "update"}
+              {Number(formik.values.id) === 0 ? "new" : "update"}
             </small>
           </Modal.Title>
         </Modal.Header>
@@ -131,8 +147,8 @@ const Major = () => {
               autocomplete="off"
               inputRef={inputRef}
               label="Major name"
-              onChange={changeEventHandler}
-              defaultValue={major.name}
+              frmFeild= {formik.getFieldProps("name")}
+              errMessage={formik.touched.name && formik.errors.name}
               name="name"
               id="my-Input"
               required
@@ -144,8 +160,8 @@ const Major = () => {
           <Button variant="secondary" onClick={handleModalClose}>
             Close
           </Button>
-          <Button variant="primary" onClick={saveHandler}>
-            Save Changes
+          <Button variant="primary" onClick={formik.handleSubmit} disabled={!formik.dirty || !formik.isValid}>
+            Save
           </Button>
         </Modal.Footer>
       </Modal>
@@ -161,7 +177,7 @@ const Major = () => {
         </Modal.Header>
         <Modal.Body>
           Bạn sẽ xóa trường này ?? <br />
-          <p className="text-danger fw-bold">name = {major.name}</p>
+          <p className="text-danger fw-bold">name = {formik.values.name}</p>
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleDeleteClose}>

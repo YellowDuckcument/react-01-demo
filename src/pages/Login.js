@@ -3,10 +3,13 @@ import { useNavigate } from "react-router-dom";
 import "./Login.css";
 import Input from "./../components/Input";
 import loginService from "../service/loginService";
+import { useDispatch } from "react-redux";
+import { login } from "../store/reducers/auth";
 
 const Login = (props) => {
   const [message, setMessage] = useState("");
   const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   const usernameRef = useRef();
   const passwordRef = useRef();
@@ -18,6 +21,10 @@ const Login = (props) => {
     loginService.login(username, password).then((res) => {
       // toDo: save userinfor
       if (res.errorCode === 0) {
+        dispatch(login({
+          token: res.data.accessToken,
+          userInfo: res.data,
+        }))
         setMessage("")
         navigate('/home')
       } else {

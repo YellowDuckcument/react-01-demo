@@ -1,4 +1,5 @@
 import axios from "axios"
+import store from "../store";
 
 const url = {
     baseUrl: "http://localhost/demo-new/public/api/",
@@ -15,7 +16,13 @@ const instance = axios.create({
     },
 })
 
-instance.interceptors.request.use(request => request)
+instance.interceptors.request.use(request => {
+    const state = store.getState();
+    if(state.auth.token) {
+        request.headers.Authorization = `Bearer ${state.auth.token}`
+    }
+    return request;
+})
 instance.interceptors.response.use(
     response => response.data,
     err => {
